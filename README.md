@@ -5,6 +5,8 @@ Creating a Expenses API to study graphQL + Apollo server
 - Express
 - GraphQL
 - Apollo Server 2
+- MongoDB
+- Mongoose
 - Typescript
 - Docker
 - Docker Compose
