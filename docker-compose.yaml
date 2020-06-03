@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: admin
+    ports:  
+      - "27017:27017"  
+    volumes:  
+      - './data:/data/db'  
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+  app:
+    build: .
+    command: yarn start:dev
+    restart: always
+    ports: 
+      - 3333:3333
+    volumes: 
+      - .:/usr/app
+    depends_on: 
+      - mongo

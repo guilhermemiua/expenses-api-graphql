@@ -1,0 +1,27 @@
+import { gql } from 'apollo-server-express'
+import { DocumentNode } from 'graphql'
+
+const UserSchema: DocumentNode = gql`
+  extend type Query {
+    user(id: Int!): User
+  }
+
+  extend type Mutation {
+    createUser(user: UserInput!): User
+  }
+
+  type User {
+    _id: String!
+    username: String!
+    email: String!
+    password: String!
+  }
+
+  input UserInput {
+    username: String!
+    email: String!
+    password: String!
+  }
+`
+
+export default UserSchema
