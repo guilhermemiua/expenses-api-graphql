@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express'
 
 import path from 'path'
 import jwt from 'jsonwebtoken'
-// import IRequest from '../interfaces/HttpRequest'
+import IRequest from '../interfaces/RequestInterface'
 
 require('dotenv').config({
   path: process.env.NODE_ENV === 'test'
@@ -10,7 +10,7 @@ require('dotenv').config({
     : path.join(__dirname, '../../.env')
 })
 
-async function auth (request, response: Response, next: NextFunction) : Promise<void | Response> {
+async function auth (request: IRequest, response: Response, next: NextFunction) : Promise<void | Response> {
   try {
     const authorization = request.header('Authorization')
 
@@ -20,9 +20,9 @@ async function auth (request, response: Response, next: NextFunction) : Promise<
 
     if (!token) return next()
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { userId }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id }
 
-    request.userId = decoded.userId
+    request.userId = decoded.id
 
     return next()
   } catch (error) {

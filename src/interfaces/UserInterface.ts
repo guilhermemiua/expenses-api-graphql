@@ -1,9 +1,12 @@
 import { Document } from 'mongoose'
 
-export interface UserInterface extends Document {
-  _id: number
+export interface IUser extends Document {
+  _id: string
   username: string
   email: string
   password: string
   expenses: string[]
+
+  compareHash: (password: String) => Promise<boolean>
+  generateToken: () => Promise<string>
 }

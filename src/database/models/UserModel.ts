@@ -2,8 +2,10 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import path from 'path'
+
 import { ObjectId } from 'mongodb'
-import { UserInterface } from '../../interfaces/UserInterface'
+
+import { IUser } from '../../interfaces/UserInterface'
 
 require('dotenv').config({
   path: process.env.NODE_ENV === 'test'
@@ -35,23 +37,23 @@ const userSchema = new Schema({
   }]
 })
 
-userSchema.pre<UserInterface>('save', async function hashPassword (next) {
+userSchema.pre<IUser>('save', async function hashPassword (next) {
   if (!this.isModified('password')) next()
 
   this.password = await bcrypt.hash(this.password, 8)
 })
 
 userSchema.methods = {
-  compareHash (password): Promise<boolean> {
+  async compareHash (password: String): Promise<boolean> {
     return bcrypt.compare(password, this.password)
   },
-  generateToken (): string {
+  async generateToken (): Promise<string> {
     return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
       expiresIn: 86400
     })
   }
 }
 
-const User = model<UserInterface>('users', userSchema)
+const User = model<IUser>('users', userSchema)
 
 export default User

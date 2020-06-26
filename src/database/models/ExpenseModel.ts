@@ -1,7 +1,7 @@
 
 import mongoose from 'mongoose'
 import { Decimal128, ObjectId } from 'mongodb'
-import { ExpenseInterface } from '../../interfaces/ExpenseInterface'
+import { IExpense } from '../../interfaces/ExpenseInterface'
 
 const { Schema, model } = mongoose
 
@@ -25,6 +25,6 @@ const expenseSchema = new Schema({
   }
 })
 
-const Expense = model<ExpenseInterface>('expenses', expenseSchema)
+const Expense = model<IExpense>('expenses', expenseSchema)
 
 export default Expense

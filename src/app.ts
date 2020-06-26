@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 
 import { ApolloServer } from 'apollo-server-express'
 
-import RequestInterface from './interfaces/RequestInterface'
+import IRequest from './interfaces/RequestInterface'
 import auth from './middlewares/auth'
 import schema from './graphql'
 
@@ -31,7 +31,7 @@ class App {
   private async initGraphqlServer (): Promise<void> {
     const server = new ApolloServer({
       schema: schema,
-      context: ({ req }: { req: RequestInterface }) => {
+      context: ({ req }: { req: IRequest }) => {
         return { userId: req.userId || '' }
       }
     })

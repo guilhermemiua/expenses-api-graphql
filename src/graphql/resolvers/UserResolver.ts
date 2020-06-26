@@ -1,42 +1,21 @@
 import UserService from '../services/UserService'
 
-import User from '../../database/models/UserModel'
-import { UserInterface } from '../../interfaces/UserInterface'
-
-// const UserResolver = {
-//   async getById (id): Promise<Partial<UserInterface>> {
-//     const user = await User.findById(id)
-
-//     return user
-//   },
-//   async create (user): Promise<Partial<UserInterface>> {
-//     const {
-//       username,
-//       email,
-//       password
-//     } = user
-
-//     const userCreated = await User.create({
-//       username,
-//       email,
-//       password
-//     })
-
-//     return userCreated
-//   }
-// }
+import { IUser } from '../../interfaces/UserInterface'
 
 const UserResolver = {
   Query: {
-    user: (parent, { id }, context): Promise<Partial<UserInterface>> => {
-      if (!context.userId) return null
+    user: (parent, { id }, context): Promise<IUser> => {
+      if (!context.userId) throw new Error('Unauthorized')
 
       return UserService.getById(id)
     }
   },
   Mutation: {
-    createUser: (parent, { user }): Promise<Partial<UserInterface>> => {
+    createUser: (parent, { user }): Promise<IUser> => {
       return UserService.create(user)
+    },
+    login: (parent, { email, password }): Promise<String> => {
+      return UserService.login(email, password)
     }
   }
 }
