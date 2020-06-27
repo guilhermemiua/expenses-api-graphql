@@ -3,7 +3,7 @@ import { DocumentNode } from 'graphql'
 
 const UserSchema: DocumentNode = gql`
   extend type Query {
-    user(id: String!): User
+    user(id: ID!): User
   }
 
   extend type Mutation {
@@ -12,10 +12,9 @@ const UserSchema: DocumentNode = gql`
   }
 
   type User {
-    _id: String!
+    _id: ID!
     username: String!
     email: String!
-    password: String!
   }
 
   input UserInput {

@@ -2,14 +2,16 @@ import User from '../../database/models/UserModel'
 
 import { IUser } from '../../interfaces/UserInterface'
 
+import { ApolloError } from 'apollo-server'
+
 class UserService {
-  async getById (id): Promise<IUser> {
+  async getUser (id): Promise<IUser> {
     const user = await User.findById(id)
 
     return user
   }
 
-  async create (user): Promise<IUser> {
+  async createUser (user): Promise<IUser> {
     const {
       username,
       email,
@@ -22,7 +24,7 @@ class UserService {
     })
 
     if (isEmailOrUsernameRegistered) {
-      throw new Error('User already registered')
+      throw new ApolloError('User already registered')
     }
 
     const userCreated = await User.create({
@@ -39,12 +41,13 @@ class UserService {
       email
     })
 
-    if (!user) {
-      throw new Error('User not found.')
-    }
     // Should not tell the user if is the email or password incorrect for security reasons
+    if (!user) {
+      throw new ApolloError('Invalid Credentials.')
+    }
+
     if (!user.compareHash(password)) {
-      throw new Error('User not found.')
+      throw new ApolloError('Invalid Credentials.')
     }
 
     // Create JWT Token
