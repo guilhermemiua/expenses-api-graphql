@@ -1,5 +1,5 @@
-# Expenses API made with Graphql
-Creating a Expenses API to study graphQL + Apollo server
+# Expense Tracker API made with Graphql
+Creating a Expense Tracker API to study graphQL + Apollo server
 
 # Technologies
 - Express

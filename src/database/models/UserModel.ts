@@ -31,9 +31,9 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  expenses: [{
+  transactions: [{
     type: ObjectId,
-    ref: 'expenses'
+    ref: 'transactions'
   }]
 })
 

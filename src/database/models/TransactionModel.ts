@@ -1,16 +1,16 @@
 
 import mongoose from 'mongoose'
 import { Decimal128, ObjectId } from 'mongodb'
-import { IExpense } from '../../interfaces/ExpenseInterface'
+import { ITransaction } from '../../interfaces/TransactionInterface'
 
 const { Schema, model } = mongoose
 
-const expenseSchema = new Schema({
+const transactionSchema = new Schema({
   description: {
     type: String,
     required: true
   },
-  value: {
+  amount: {
     type: Decimal128,
     required: true
   },
@@ -25,6 +25,6 @@ const expenseSchema = new Schema({
   }
 })
 
-const Expense = model<IExpense>('expenses', expenseSchema)
+const Transaction = model<ITransaction>('transactions', transactionSchema)
 
-export default Expense
+export default Transaction

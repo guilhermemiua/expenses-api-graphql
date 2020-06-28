@@ -5,7 +5,7 @@ export interface IUser extends Document {
   username: string
   email: string
   password: string
-  expenses: string[]
+  transactions: string[]
 
   compareHash: (password: String) => Promise<boolean>
   generateToken: () => Promise<string>

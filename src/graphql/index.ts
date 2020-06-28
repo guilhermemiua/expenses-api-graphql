@@ -2,9 +2,9 @@ import { makeExecutableSchema } from 'apollo-server'
 import { gql } from 'apollo-server-express'
 
 import UserSchema from './schemas/UserSchema'
-import ExpenseSchema from './schemas/ExpenseSchema'
+import TransactionSchema from './schemas/TransactionSchema'
 import UserResolver from './resolvers/UserResolver'
-import ExpenseResolver from './resolvers/ExpenseResolver'
+import TransactionResolver from './resolvers/TransactionResolver'
 
 const initialSchema = gql`
   type Query {
@@ -17,8 +17,8 @@ const initialSchema = gql`
 `
 
 const schema = makeExecutableSchema({
-  typeDefs: [initialSchema, UserSchema, ExpenseSchema],
-  resolvers: [UserResolver, ExpenseResolver]
+  typeDefs: [initialSchema, UserSchema, TransactionSchema],
+  resolvers: [UserResolver, TransactionResolver]
 })
 
 export default schema

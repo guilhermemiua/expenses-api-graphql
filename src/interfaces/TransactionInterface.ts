@@ -1,9 +1,9 @@
 import { Document } from 'mongoose'
 
-export interface IExpense extends Document {
+export interface ITransaction extends Document {
   _id: string
   description: string
   type: string
-  value: number
+  amount: number
   user: number
 }
