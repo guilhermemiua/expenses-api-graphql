@@ -5,12 +5,13 @@ const TransactionSchema: DocumentNode = gql`
   extend type Query {
     transaction(id: ID!): Transaction!
     transactions(type: TransactionType): [Transaction]!
+    transactionsPaginated(type: TransactionType, perPage: Int, page: Int): [Transaction]!
   }
 
   extend type Mutation {
     createTransaction(transaction: TransactionInput!): Transaction!
     editTransaction(id: ID!, transaction: EditTransactionInput!): Transaction!
-    deleteTransaction(id: ID!): Boolean
+    deleteTransaction(id: ID!): Int!
   }
 
   type Transaction {

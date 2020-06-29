@@ -26,6 +26,11 @@ const TransactionResolver = {
       if (!context.userId) throw new AuthenticationError('Unauthorized')
 
       return await TransactionService.getTransactions({ user: context.userId, type })
+    },
+    transactionsPaginated: async (parent, { type, perPage, page }, context): Promise<ITransaction[]> => {
+      if (!context.userId) throw new AuthenticationError('Unauthorized')
+
+      return await TransactionService.getTransactionsPaginated({ user: context.userId, type, perPage, page })
     }
   },
   Mutation: {
@@ -39,7 +44,7 @@ const TransactionResolver = {
 
       return await TransactionService.editTransaction(id, context.userId, transaction)
     },
-    deleteTransaction: async (parent, { id }, context): Promise<boolean> => {
+    deleteTransaction: async (parent, { id }, context): Promise<number> => {
       if (!context.userId) throw new AuthenticationError('Unauthorized')
 
       return await TransactionService.deleteTransaction(id, context.userId)

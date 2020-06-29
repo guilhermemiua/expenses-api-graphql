@@ -28,12 +28,36 @@ class TransactionService {
       }
     }
 
-    const transactions = await Transaction.find({
+    return await Transaction.find({
       ...queryFields,
       user
     })
+  }
 
-    return transactions
+  async getTransactionsPaginated ({ user, type, perPage, page }): Promise<ITransaction[]> {
+    let queryFields = {}
+
+    if (type) {
+      queryFields = {
+        ...queryFields,
+        type
+      }
+    }
+
+    // Pagination
+    if (perPage & page) {
+      return await Transaction.find({
+        ...queryFields,
+        user
+      })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+    }
+
+    return await Transaction.find({
+      ...queryFields,
+      user
+    })
   }
 
   async createTransaction (transaction): Promise<ITransaction> {
@@ -75,17 +99,13 @@ class TransactionService {
     return await this.getTransaction(id, user)
   }
 
-  async deleteTransaction (id, user): Promise<boolean> {
-    const result = await Transaction.deleteOne({
+  async deleteTransaction (id, user): Promise<number> {
+    await Transaction.deleteOne({
       _id: id,
       user
     })
 
-    if (result.n === 1) {
-      return true
-    }
-
-    return false
+    return id
   }
 }
 
